@@ -4,6 +4,8 @@
     'author': "Hesabe",
     'website': "https://developer.hesabe.com/docs/2.0/kits/odoo",
     'version': '15.0.0.0',
+    'price': 49.99,
+    'currency': 'USD',
     'sequence': -98,
     'maintainer' : 'Jamal shah',
     'category': 'Accounting/Payment Acquirers',
@@ -17,6 +19,7 @@
         'data/payment_acquirer_data.xml',
     ],
     'images': ['static/description/banner.png'],
+    
     'installable': True,
     'application': True,
     'auto_install': False,
