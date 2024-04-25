@@ -14,7 +14,7 @@ class HesabeController(http.Controller):
                 '/payment/hesabe/knet/fail'], type='http', auth='public', csrf=False, methods=['GET'], save_session=False 
     )
     def hesabe_knet_return(self, **post):
-        hesabe = request.env['payment.acquirer'].search([('provider', '=', 'Hesabe_PG_KNET_v15')], limit=1).sudo()
+        hesabe = request.env['payment.acquirer'].sudo().search([('provider', '=', 'Hesabe_PG_KNET_v15')], limit=1)
         data = decrypt(post['data'], hesabe.secret_key, hesabe.iv_key)
         response = json.loads(data)
         if post:
