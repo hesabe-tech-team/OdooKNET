@@ -1,14 +1,23 @@
 # -*- coding: utf-8 -*-
 
 import json
-from odoo import models, fields, api, _
+import logging
+from odoo.http import request # type: ignore
+
+
+
+from odoo import models, fields, api, _ # type: ignore
 from werkzeug import urls
-from odoo.addons.Hesabe_PG_KNET_v15.models.hesabecrypt import encrypt, decrypt
-from odoo.addons.Hesabe_PG_KNET_v15.models.hesabeutil import checkout
-from odoo.exceptions import ValidationError
+from odoo.addons.Hesabe_PG_KNET_v15.models.hesabecrypt import encrypt, decrypt # type: ignore
+from odoo.addons.Hesabe_PG_KNET_v15.models.hesabeutil import checkout # type: ignore
+from odoo.exceptions import ValidationError # type: ignore
+
+_logger = logging.getLogger(__name__)
 
 class PaymentAcquirerHesabe(models.Model):
     _inherit = 'payment.acquirer'
+
+    _description = "Payment Acquirer Hesabe Model"
 
     @api.model
     def default_get(self, fields):
@@ -33,12 +42,21 @@ class PaymentAcquirerHesabe(models.Model):
         else:
             return {'hesabe_form_url': ''}
     
-    def _get_hesabe_form_generate_values(self, acqid,currencyid,partnerid,referenceno,providr,amount):
+    def _get_hesabe_form_generate_values(self, acqid, currencyid, partnerid, referenceno, providr, amount):
+        # Add your code here
+
         self.ensure_one()
         base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
-        company = self.env['res.company'].search([('id', '=', self.env.company.id)], limit=1).sudo()
-        
+        company = self.env['res.company'].search([('id', '=', self.env.company.id)], limit=1)
+
+        order = self.env['sale.order'].browse(partnerid)
+        current_user =  order.partner_id
+        name = current_user.name
+        email = current_user.email
+        mobile = current_user.phone
+
         payload = {
+            'writeoff_account_id': self.env['account.account'].browse("you id").id,
             "merchantCode": acqid.merchant_code,
             "currency": company.currency_id.name,
             "amount": amount,
@@ -51,10 +69,14 @@ class PaymentAcquirerHesabe(models.Model):
             # "variable1": values['reference'],
             # Use to compare with response value amount
             "variable2": amount,
-            # "variable3": values['reference'],
-            # "variable4": values['reference'],
+            # "variable3": values['reference'],9            # "variable4": values['reference'],
             # "variable5": values['reference'],
+            "name" : name,
+            "mobile_number"  : mobile,
+            "email" : email
         }
+        
+        _logger.info("Requested data: %s", payload)
         
         ComvertPayload = json.dumps(payload)
         parseComvertPayload = json.loads(ComvertPayload)
