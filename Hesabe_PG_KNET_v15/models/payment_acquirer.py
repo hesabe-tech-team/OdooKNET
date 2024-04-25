@@ -2,15 +2,15 @@
 
 import json
 import logging
-from odoo.http import request
+from odoo.http import request # type: ignore
 
 
 
-from odoo import models, fields, api, _
+from odoo import models, fields, api, _ # type: ignore
 from werkzeug import urls
-from odoo.addons.Hesabe_PG_KNET_v15.models.hesabecrypt import encrypt, decrypt
-from odoo.addons.Hesabe_PG_KNET_v15.models.hesabeutil import checkout
-from odoo.exceptions import ValidationError
+from odoo.addons.Hesabe_PG_KNET_v15.models.hesabecrypt import encrypt, decrypt # type: ignore
+from odoo.addons.Hesabe_PG_KNET_v15.models.hesabeutil import checkout # type: ignore
+from odoo.exceptions import ValidationError # type: ignore
 
 _logger = logging.getLogger(__name__)
 

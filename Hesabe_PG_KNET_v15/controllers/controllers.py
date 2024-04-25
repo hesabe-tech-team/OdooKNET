@@ -3,10 +3,10 @@ import json
 import pprint
 import werkzeug
 
-from odoo import http
-from odoo.http import request
+from odoo import http # type: ignore
+from odoo.http import request # type: ignore
 import PyPDF2
-from odoo.addons.Hesabe_PG_KNET_v15.models.hesabecrypt import decrypt
+from odoo.addons.Hesabe_PG_KNET_v15.models.hesabecrypt import decrypt # type: ignore
 
 class HesabeController(http.Controller):
      

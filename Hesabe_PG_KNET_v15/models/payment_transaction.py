@@ -2,8 +2,8 @@
 
 import json
 from werkzeug import urls
-from odoo import _, api, models
-from odoo.exceptions import ValidationError
+from odoo import _, api, models # type: ignore
+from odoo.exceptions import ValidationError # type: ignore
 
 class PaymentTransactionHesabe(models.Model):
     _inherit = 'payment.transaction'
