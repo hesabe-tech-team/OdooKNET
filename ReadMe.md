@@ -1,3 +1,3 @@
-# odoo v15 (KNet)
+# odoo V16 (KNET)
 
-Hesabe KNet Plugin for Odoo version 15
+Hesabe KNET Plugin for Odoo version 16
